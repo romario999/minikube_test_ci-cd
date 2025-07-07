@@ -30,6 +30,7 @@ jobs:
           echo "Logs for pod $pod:"
           kubectl logs $pod || echo "No logs for pod $pod"
           echo "----"
+          kubectl describe pod $pod || echo "No description for pod $pod"
         done
     - name: Test service URLs
       run: |
