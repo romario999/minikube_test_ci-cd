@@ -20,10 +20,12 @@ jobs:
           echo -n "verifying images:"
           docker images         
     - name: Deploy to minikube
-      run:
+      run: |
         kubectl apply -f k8s-node-app.yaml
-        echo "Waiting for deployment to be ready..."
+    - name: Wait for deployment to be ready
+      run: |
         kubectl rollout status deployment/nodejs-app --timeout=120s
+
     # - name: Check pods status
     #   run: |
     #     kubectl get pods
