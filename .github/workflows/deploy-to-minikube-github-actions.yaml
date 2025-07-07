@@ -22,6 +22,15 @@ jobs:
     - name: Deploy to minikube
       run:
         kubectl apply -f k8s-node-app.yaml
+    - name: Check pods status
+      run: |
+        kubectl get pods
+        kubectl describe pods
+        for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
+          echo "Logs for pod $pod:"
+          kubectl logs $pod || echo "No logs for pod $pod"
+          echo "----"
+        done
     - name: Test service URLs
       run: |
           minikube service list
